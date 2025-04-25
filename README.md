@@ -26,7 +26,7 @@ Tools return a consistent `ToolResult` structure that separates concerns:
 ```go
 type ToolResult struct {
     Name             string             `json:"name,omitempty"`
-    Output           *string            `json:"output,omitempty"`
+    Output           any                `json:"output,omitempty"`
     Error            *string            `json:"error,omitempty"`
     System           *string            `json:"system,omitempty"`
     Image            *ToolImage         `json:"image,omitempty"`
