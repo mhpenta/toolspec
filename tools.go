@@ -19,7 +19,7 @@ type ToolResult struct {
 
 	// Output contains the standard/success result of a tool execution.
 	// This field should be used for the primary, expected output of the tool.
-	Output *string `json:"output,omitempty"`
+	Output any `json:"output,omitempty"`
 
 	// Error contains any error messages when tool execution fails.
 	// This is kept separate from Output to clearly distinguish between
@@ -36,7 +36,7 @@ type ToolResult struct {
 	// that perform screen captures or generate visual output. The ToolImage type encapsulates the
 	// image data and related metadata.
 	Image *ToolImage `json:"image,omitempty"`
-	
+
 	// CitableDocuments contains a list of citable documents related to the tool's output. This is critical
 	CitableDocuments []*CitableDocument `json:"citable_document,omitempty"`
 }
