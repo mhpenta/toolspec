@@ -4,33 +4,56 @@ A standardized Go interface for building interchangeable tools.
 
 ## The Tool Interface
 
+Every tool implements this simple interface:
+
 ```go
 type Tool interface {
-    // Name returns the tool's identifier
-    Name() string
-    // Type returns the tool's API type
-    Type() string
-    // Execute runs the tool with given parameters
-    Execute(ctx context.Context, params json.RawMessage) (*ToolResult, error)
-    // Parameters returns the tool's parameter schema
-    Parameters() map[string]interface{}
-    // Description returns the tool's description
-    Description() string
+    // Spec returns the tool's specification including metadata and parameters
+    Spec() ToolSpec
+    
+    // Execute runs the tool with the given parameters
+    Execute(ctx context.Context, params map[string]interface{}) ToolResult
+}
+```
+
+## Tool Specification
+
+Tool metadata is encapsulated in the `ToolSpec` struct:
+
+```go
+type ToolSpec struct {
+    Name        string                 `json:"name,omitempty"`
+    Type        string                 `json:"type,omitempty"`
+    Description string                 `json:"description,omitempty"`
+    Parameters  map[string]interface{} `json:"parameters,omitempty"`
+    UI          UI                     `json:"ui,omitempty"`
+}
+```
+
+### UI Hints
+
+The `UI` field provides hints for tool presentation:
+
+```go
+type UI struct {
+    // Verb is a present progressive verb phrase describing what the tool is doing
+    // Example: "Searching for companies", "Analyzing data"
+    Verb string `json:"verb,omitempty"`
+    
+    // LongRunning indicates if this tool typically takes a long time to execute
+    LongRunning bool `json:"longRunning,omitempty"`
 }
 ```
 
 ## Standardized Results
 
-Tools return a consistent `ToolResult` structure that separates concerns:
+All tools return a `ToolResult` with consistent fields:
 
 ```go
 type ToolResult struct {
-    Name             string             `json:"name,omitempty"`
-    Output           any                `json:"output,omitempty"`
-    Error            *string            `json:"error,omitempty"`
-    System           *string            `json:"system,omitempty"`
-    Image            *ToolImage         `json:"image,omitempty"`
-    CitableDocuments []*CitableDocument `json:"citable_document,omitempty"`
+    Name   string      `json:"name"`
+    Output interface{} `json:"output,omitempty"`
+    Error  string      `json:"error,omitempty"`
 }
 ```
 
@@ -42,8 +65,7 @@ Interface-based tools provide several advantages over function registration patt
 2. **Testability** - Each tool can be isolated and unit tested effectively
 3. **Polymorphism** - Tools can be used interchangeably regardless of implementation
 4. **Discoverability** - Tools expose their parameters and description as part of the interface
-5. **Result consistency** - The standard ToolResult structure ensures uniform error handling and output formats
-6. **Type safety** - Interface constraints enforce contracts at compile time
-7. **Extensibility** - Tools can be extended via composition or embedding
-
-This approach aligns with Go's interface philosophy of "design by contract" while enabling a flexible plugin system without sacrificing type safety.
+5. **Result consistency** - The standard ToolResult structure ensures uniform error handling and flexible output 
+6. **Extensibility** - Tools can be extended via composition or embedding
+7. **Better encapsulation** - All metadata consolidated in a single `ToolSpec` struct
+8. **UI/UX support** - Built-in hints for better tool presentation in user interfaces

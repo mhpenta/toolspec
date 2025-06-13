@@ -1,4 +1,4 @@
-package toolspec
+package v1
 
 import (
 	"context"
@@ -53,35 +53,4 @@ type Tool interface {
 	Parameters() map[string]interface{}
 	// Description returns the tool's description
 	Description() string
-}
-
-// ToolError represents a tool-specific error
-type ToolError struct {
-	msg string
-}
-
-// NewToolError creates a new ToolError
-func NewToolError(msg string) *ToolError {
-	return &ToolError{msg: msg}
-}
-
-// NewToolErrorResult creates a new ToolResult with an error
-func NewToolErrorResult(msg string) *ToolResult {
-	return &ToolResult{
-		"",
-		nil,
-		ptr(msg),
-		nil,
-		nil,
-		nil,
-	}
-}
-
-func (e *ToolError) Error() string {
-	return e.msg
-}
-
-// Helper function to create string pointer
-func ptr(s string) *string {
-	return &s
 }

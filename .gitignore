@@ -32,3 +32,17 @@ dist/
 
 # Log files
 *.log
+mcp/
+official/mcp/
+official/jsonrpc2_v2/
+v2/
+v2/jsonschema
+v2/internal
+alternative/
+alternative/tools/internal
+alternative/tools/jsonschema
+toolsv2
+toolsv3
+tools/
+.claude
+toolsv4
