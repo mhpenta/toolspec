@@ -9,10 +9,10 @@ Every tool implements this simple interface:
 ```go
 type Tool interface {
     // Spec returns the tool's specification including metadata and parameters
-    Spec() ToolSpec
+    Spec() *ToolSpec
     
     // Execute runs the tool with the given parameters
-    Execute(ctx context.Context, params map[string]interface{}) ToolResult
+    Execute(ctx context.Context, params json.RawMessage) (*ToolResult, error)
 }
 ```
 
