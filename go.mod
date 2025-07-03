@@ -8,4 +8,5 @@ require (
 	github.com/ijt/go-anytime v1.9.2 // indirect
 	github.com/ijt/goparsify v0.0.0-20221203142333-3a5276334b8d // indirect
 	github.com/mhpenta/jobj v0.3.53 // indirect
+	golang.org/x/net v0.41.0 // indirect
 )
