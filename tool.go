@@ -23,6 +23,8 @@ type ToolSpec struct {
 	Description string `json:"description,omitempty"`
 	// Parameters returns the tool's parameter schema
 	Parameters map[string]interface{} `json:"parameters,omitempty"`
+	// Sequential indicates if the tool should be run sequentially
+	Sequential bool `json:"sequential,omitempty"`
 	// UI provides additional UI hints for the tool
 	UI UI `json:"ui,omitempty"`
 }
